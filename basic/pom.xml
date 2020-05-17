@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.10.RELEASE</version>
+        <version>2.3.0.RELEASE</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
@@ -56,9 +56,9 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.6</version>
+                <version>1.10.0</version>
                 <configuration>
-                    <nodeVersion>v8.8.1</nodeVersion>
+                    <nodeVersion>v12.16.3</nodeVersion>
                 </configuration>
                 <executions>
                     <execution>
