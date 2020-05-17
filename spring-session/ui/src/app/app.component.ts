@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AppService } from './app.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/finally';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +14,10 @@ export class AppComponent {
       this.app.authenticate({}, undefined);
     }
     logout() {
-      this.http.post('logout', {}).finally(() => {
+      this.http.post('logout', {}).pipe(tap(() => {
           this.app.authenticated = false;
           this.router.navigateByUrl('/login');
-      }).subscribe();
+      }));
     }
 
 }

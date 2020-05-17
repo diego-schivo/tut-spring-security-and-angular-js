@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class HomeComponent {
 
   title = 'Demo';
-  greeting = {};
+  greeting: any = {};
 
   constructor(private app: AppService, private http: HttpClient) {
     http.get('token').subscribe(data => {

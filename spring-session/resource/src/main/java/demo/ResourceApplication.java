@@ -7,13 +7,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.session.web.http.HeaderHttpSessionStrategy;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
+import org.springframework.session.web.http.HttpSessionIdResolver;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
+@EnableRedisHttpSession
 public class ResourceApplication extends WebSecurityConfigurerAdapter {
 
 	@Override
@@ -28,8 +31,8 @@ public class ResourceApplication extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	HeaderHttpSessionStrategy sessionStrategy() {
-		return new HeaderHttpSessionStrategy();
+	HttpSessionIdResolver httpSessionIdResolver() {
+		return HeaderHttpSessionIdResolver.xAuthToken();
 	}
 
 	public static void main(String[] args) {
