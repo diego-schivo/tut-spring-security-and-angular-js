@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   credentials = {username: '', password: ''};
+  error = false;
 
   constructor(private app: AppService, private http: HttpClient, private router: Router) {
   }

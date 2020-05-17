@@ -9,10 +9,10 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -60,8 +60,16 @@ public class ApplicationTests {
 		RequestEntity<MultiValueMap<String, String>> request = new RequestEntity<MultiValueMap<String, String>>(
 				form, headers, HttpMethod.POST, URI.create("http://localhost:" + port
 						+ "/login"));
-    ResponseEntity<Map<String, Object>> location = template.exchange(request, new ParameterizedTypeReference<Map<String, Object>>() {
-    });
+		response = template.exchange(request, String.class);
+		assertEquals(HttpStatus.FOUND, response.getStatusCode());
+		csrf = getCsrf(response.getHeaders());
+		headers = new HttpHeaders();
+		headers.set("X-XSRF-TOKEN", csrf);
+		headers.put("COOKIE", response.getHeaders().get("Set-Cookie"));
+		request = new RequestEntity<MultiValueMap<String, String>>(
+				null, headers, HttpMethod.GET, response.getHeaders().getLocation());
+		ResponseEntity<Map<String, Object>> location = template.exchange(request, new ParameterizedTypeReference<Map<String, Object>>() {
+		});
 		assertEquals("user", location.getBody().get("name"));
 	}
 
